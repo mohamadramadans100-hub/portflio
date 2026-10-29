@@ -1,7 +1,7 @@
 /**
  * =========================================================================
  * ملف بيانات الموقع (Portfolio Data)
- * يحتوي على المشاريع الحقيقية الـ 6 بكامل تفاصيلها ومعارض صورها
+ * يحتوي على المشاريع الحقيقية الـ 7 بكامل تفاصيلها ومعارض صورها وروابطها
  * =========================================================================
  */
 
@@ -9,16 +9,16 @@ const PORTFOLIO_DATA = {
   // المعلومات الشخصية والتعريفية
   profile: {
     name: "محمد رمضان",
-    title: "مصمم جرافيك ومخرج مطبوعات",
+    title: "مصمم جرافيك ومخرج مطبوعات وتطبيقات",
     experience: "4 سنوات",
-    intro: "مصمم جرافيك متخصص في الإخراج الصحفي، تصميم وتنسيق الكتب والروايات، المناهج التعليمية، المجلات، والتقارير الدولية، بالإضافة للبروشورات وتصاميم السوشيال ميديا.",
+    intro: "مصمم جرافيك متخصص في الإخراج الصحفي، تصميم وتنسيق الكتب والروايات، المناهج التعليمية، المجلات، والتقارير الدولية، بالإضافة للبروشورات وتطبيقات الويب والموبايل وتصاميم السوشيال ميديا.",
     email: "mohamad.ramadans100@gmail.com",
     location: "مصر",
     heroImage: "assets/images/hero.jpg",
     aboutImage: "assets/images/about.jpg",
     bio: [
-      "مصمم جرافيك بخبرة 4 سنوات متخصصة في الإخراج الفني وتنسيق المطبوعات والنشر المكتبي. عملت على إخراج العديد من الكتب والروايات الأدبية بالتعاون مع دور نشر ومؤلفين بارزين.",
-      "لدي خبرة واسعة في تصميم المجلات الدورية، المناهج التعليمية، والتقارير الدولية الرسمية، مع التركيز على التوزيع التايبوغرافي الدقيق المريح للعين، واختيار الخطوط والألوان التي تخدم رسالة المحتوى وتمنحه هوية بصرية رصينة وجذابة."
+      "مصمم جرافيك بخبرة 4 سنوات متخصصة في الإخراج الفني وتنسيق المطبوعات والنشر المكتبي وتصميم واجهات وتطبيقات الهاتف (UI/UX). عملت على إخراج العديد من الكتب والروايات الأدبية بالتعاون مع دور نشر ومؤلفين بارزين.",
+      "لدي خبرة واسعة في تصميم المجلات الدورية، المناهج التعليمية، والتقارير الدولية الرسمية، بالإضافة لتصميم واجهات التطبيقات المنشورة على متجر Google Play، مع التركيز على التوزيع البصري والتايبوغرافي الدقيق المريح للعين."
     ],
     phones: ["01061149648", "01142654106"],
     socials: [
@@ -52,7 +52,8 @@ const PORTFOLIO_DATA = {
     "التقارير الدولية",
     "كتب تعليمية",
     "بروشور",
-    "سوشيال ميديا"
+    "سوشيال ميديا",
+    "تطبيقات الويب والموبايل"
   ],
 
   // الخدمات التخصصية
@@ -61,6 +62,11 @@ const PORTFOLIO_DATA = {
       title: "تصميم وتنسيق الكتب والروايات",
       description: "تنسيق داخلي احترافي لصفحات الكتب والروايات مع توزيع النصوص وضبط الهوامش والخطوط المريحة للقراءة.",
       icon: "frame"
+    },
+    {
+      title: "تصميم واجهات وتطبيقات الموبايل (UI/UX)",
+      description: "تصميم تجربة مستخدم وواجهات تطبيقات ويب وموبايل حديثة وجذابة معتمدة على متاجر التطبيقات مثل Google Play.",
+      icon: "smartphone"
     },
     {
       title: "إخراج المناهج والكتب التعليمية",
@@ -81,11 +87,6 @@ const PORTFOLIO_DATA = {
       title: "تصميم البروشورات والمطويات",
       description: "تصاميم مطبوعات ترويجية وتوعوية (Tri-fold / Bi-fold) معدة للطباعة الفاخرة بأعلى معايير الدقة.",
       icon: "printer"
-    },
-    {
-      title: "تصميم السوشيال ميديا",
-      description: "تصاميم بصرية مبتكرة لحملات السوشيال ميديا ومساحات العمل الرقمية المعززة بالذكاء الاصطناعي.",
-      icon: "smartphone"
     }
   ],
 
@@ -93,7 +94,8 @@ const PORTFOLIO_DATA = {
   skills: [
     "Adobe InDesign",
     "Adobe Photoshop",
-    "Adobe Illustrator"
+    "Adobe Illustrator",
+    "Figma & UI/UX"
   ],
 
   // قائمة المشاريع الحقيقية (صورة الغلاف هي الأولى دائماً في كل مشروع)
@@ -223,19 +225,74 @@ const PORTFOLIO_DATA = {
       ]
     },
     {
+      id: "web-mobile-app",
+      title: "تطبيقات الويب والموبايل (Web & App)",
+      client: "Google Play Store / mr1graphics",
+      category: "تطبيقات الويب والموبايل",
+      year: "2024",
+      image: "assets/app/app-cover.jpg",
+      appUrl: "https://play.google.com/store/apps/details?id=com.mr1graphics.menhajalmuslim",
+      summary: "تصميم واجهات وتجربة المستخدم لتطبيقات الهاتف والويب (UI/UX) تشمل تطبيق السياحة والرحلات وتطبيق منهاج المسلم على متجر Google Play (32 شاشة ونموذجاً).",
+      overview: "مشروع احترافي متكامل في تصميم واجهات وتجربة المستخدم (UI/UX Design) لتطبيقات الموبايل والويب. يضم تصاميم عصرية لتطبيق السياحة وحجز الرحلات، وتطبيق 'منهاج المسلم' المنشور رسمياً على متجر Google Play، مع الاهتمام بأدق التفاصيل التفاعلية، تناغم الألوان، وضوح التايبوغرافي، وتسهيل تجربة المستخدم للوصول لكافة الخصائص بسلاسة تامة.",
+      role: "تصميم واجهات المستخدم (UI/UX Design)، تصميم الأيقونات والهوية البصرية",
+      tools: ["Figma", "Adobe XD", "Adobe Photoshop", "Adobe Illustrator"],
+      gallery: [
+        "assets/app/app-cover.jpg",
+        "assets/app/app-screen-02.jpg",
+        "assets/app/app-screen-03.jpg",
+        "assets/app/app-screen-04.jpg",
+        "assets/app/app-screen-05.jpg",
+        "assets/app/app-screen-06.jpg",
+        "assets/app/app-screen-07.jpg",
+        "assets/app/app-screen-08.jpg",
+        "assets/app/app-screen-09.jpg",
+        "assets/app/app-screen-10.jpg",
+        "assets/app/app-screen-11.jpg",
+        "assets/app/app-screen-12.jpg",
+        "assets/app/app-screen-13.jpg",
+        "assets/app/app-screen-14.jpg",
+        "assets/app/app-screen-15.jpg",
+        "assets/app/app-screen-16.jpg",
+        "assets/app/app-screen-17.jpg",
+        "assets/app/app-screen-18.jpg",
+        "assets/app/app-screen-19.jpg",
+        "assets/app/app-screen-20.jpg",
+        "assets/app/app-screen-21.jpg",
+        "assets/app/app-screen-22.jpg",
+        "assets/app/app-screen-23.jpg",
+        "assets/app/app-screen-24.jpg",
+        "assets/app/app-screen-25.jpg",
+        "assets/app/app-screen-26.jpg",
+        "assets/app/app-screen-27.jpg",
+        "assets/app/app-screen-28.jpg",
+        "assets/app/app-screen-29.jpg",
+        "assets/app/app-screen-30.jpg",
+        "assets/app/app-screen-31.jpg",
+        "assets/app/app-screen-32.jpg"
+      ]
+    },
+    {
       id: "social-media",
       title: "سوشيال ميديا",
       client: "منصات وحملات رقمية (AI-Powered Workspace)",
       category: "سوشيال ميديا",
       year: "2024",
       image: "assets/images/ai-powered-creative-workspace.png",
-      summary: "تصاميم سوشيال ميديا وحملات رقمية إبداعية بغلاف AI-Powered Creative Workspace.",
-      overview: "تصاميم مبتكرة لمنصات التواصل الاجتماعي تركز على الإبداع الرقمي وحلول الذكاء الاصطناعي ومساحات العمل الحديثة (AI-Powered Creative Workspace)، مع مراعاة المقاييس المعتمدة لمنصات انستغرام، لينكد إن، وفيسبوك، بتناسق لوني وتأثيرات بصرية جاذبة للجمهور المستهدف.",
+      summary: "تصاميم سوشيال ميديا وحملات رقمية إبداعية متعددة الأنماط تشمل AI-Powered Workspace ونماذج تسويقية منوعة (10 تصاميم).",
+      overview: "باقة تصاميم مبتكرة لمنصات التواصل الاجتماعي تجمع بين الإبداع الرقمي وحلول الذكاء الاصطناعي (AI-Powered Creative Workspace) ونماذج بصرية منوعة للعلامات التجارية، مع مراعاة المقاييس المعتمدة لمنصات انستغرام، لينكد إن، وفيسبوك، بتناسق لوني وتأثيرات بصرية لافتة.",
       role: "الفكرة، التصميم الرقمي، والمعالجة البصرية",
       tools: ["Adobe Photoshop", "Adobe Illustrator"],
       gallery: [
         "assets/images/ai-powered-creative-workspace.png",
-        "assets/images/project-social-media.jpg"
+        "assets/social/social-img-01.jpg",
+        "assets/social/social-img-02.jpg",
+        "assets/social/social-img-03.png",
+        "assets/social/social-img-04.png",
+        "assets/social/social-img-05.jpg",
+        "assets/social/social-img-06.jpg",
+        "assets/social/social-img-07.jpg",
+        "assets/social/social-img-08.jpg",
+        "assets/social/social-img-09.jpg"
       ]
     }
   ]

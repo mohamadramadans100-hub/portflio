@@ -21,7 +21,8 @@ const ICONS = {
   mail: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>`,
   mapPin: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>`,
   menu: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>`,
-  x: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>`
+  x: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>`,
+  googlePlay: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3.609 1.814L13.793 12 3.61 22.186a2.22 2.22 0 0 1-.61-.926V2.74c0-.342.22-.66.61-.926zm11.3 11.3l2.55-2.55-12.01-6.95 9.46 9.5zm0 1.772l-9.46 9.5 12.01-6.95-2.55-2.55zm1.258-1.258l3.15 1.82a1.44 1.44 0 0 0 0-2.484l-3.15-1.82-1.42 1.42 1.42 1.064z"/></svg>`
 };
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -120,15 +121,17 @@ document.addEventListener("DOMContentLoaded", () => {
       ? data.projects 
       : data.projects.filter(p => p.category === activeCategory);
 
-    projectsGrid.innerHTML = filtered.map((project, index) => {
+    projectsGrid.innerHTML = filtered.map((project) => {
       const totalPages = (project.gallery && project.gallery.length > 1) ? project.gallery.length : null;
-      
+      const hasApp = !!project.appUrl;
+
       return `
         <div class="project-card reveal is-visible" data-project-id="${project.id}">
           <img src="${project.image}" alt="${project.title}" loading="lazy" class="project-card-img" />
           <div class="project-card-gradient"></div>
           
-          ${totalPages ? `<span class="project-badge pages-count">${totalPages} نماذج وتصاميم</span>` : ''}
+          ${totalPages ? `<span class="project-badge pages-count">${totalPages} تصاميم ونماذج</span>` : ''}
+          ${hasApp ? `<span class="project-badge app-badge">${ICONS.googlePlay} متوفر على Google Play</span>` : ''}
           
           <div class="project-card-content">
             <span class="eyebrow" style="font-size:0.75rem;">${project.category}</span>
@@ -170,7 +173,7 @@ document.addEventListener("DOMContentLoaded", () => {
     skillsGrid.innerHTML = data.skills.map(skill => `
       <div class="skill-card reveal">
         <span class="skill-name">${skill}</span>
-        <span class="skill-pill">برنامج</span>
+        <span class="skill-pill">برنامج / تقنية</span>
       </div>
     `).join("");
   }
@@ -215,6 +218,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const modalNextBtn = document.getElementById("modal-next-btn");
   const modalCounter = document.getElementById("modal-img-counter");
   const modalThumbsContainer = document.getElementById("modal-thumbnails-container");
+  const modalAppLinkWrapper = document.getElementById("modal-app-link-wrapper");
 
   let currentGallery = [];
   let currentImageIdx = 0;
@@ -258,6 +262,20 @@ document.addEventListener("DOMContentLoaded", () => {
       modalTools.innerHTML = (project.tools && project.tools.length > 0)
         ? project.tools.map(t => `<span class="tool-tag">${t}</span>`).join("")
         : `<span class="tool-tag">Adobe InDesign</span>`;
+    }
+
+    // زر تحميل التطبيق من متجر Google Play إن وُجد
+    if (modalAppLinkWrapper) {
+      if (project.appUrl) {
+        modalAppLinkWrapper.innerHTML = `
+          <a href="${project.appUrl}" target="_blank" rel="noopener noreferrer" class="btn-google-play">
+            ${ICONS.googlePlay}
+            <span>تحميل واستعراض التطبيق على Google Play</span>
+          </a>
+        `;
+      } else {
+        modalAppLinkWrapper.innerHTML = "";
+      }
     }
 
     // إظهار أو إخفاء أزرار التنقل وشريط المصغرات بحسب عدد الصور
