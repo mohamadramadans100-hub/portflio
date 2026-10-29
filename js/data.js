@@ -48,25 +48,37 @@ const PORTFOLIO_DATA = {
   categories: [
     "الكل",
     "كتب وروايات",
+    "تنسيق وإخراج الرسائل العلمية",
     "المجلة السعودية",
     "التقارير الدولية",
     "كتب تعليمية",
     "بروشور",
+    "برزنتيشن",
     "تطبيقات الويب والموبايل",
     "سوشيال ميديا"
   ],
 
-  // الخدمات التخصصية (تشمل التطبيقات والمواقع الإلكترونية)
+  // الخدمات التخصصية (تشمل التطبيقات والمواقع، الرسائل العلمية، والعروض التقديمية)
   services: [
     {
       title: "تصميم المواقع وتطبيقات الموبايل (Web & App)",
-      description: "تصميم واجهات وتجربة المستخدم (UI/UX) للمواقع والتطبيقات الإلكترونية المتجاوبة والمنشورة على المتاجر مثل Google Play.",
+      description: "تصميم واجهات وتجربة المستخدم (UI/UX) للمواقع ولوحات التحكم (Dashboards) والتطبيقات الإلكترونية المنشورة على Google Play.",
       icon: "smartphone"
     },
     {
       title: "تصميم وتنسيق الكتب والروايات",
       description: "تنسيق داخلي احترافي لصفحات الكتب والروايات مع توزيع النصوص وضبط الهوامش والخطوط المريحة للقراءة.",
       icon: "frame"
+    },
+    {
+      title: "تنسيق وإخراج الرسائل العلمية والأبحاث",
+      description: "إخراج الأطروحات الأكاديمية (ماجستير ودكتوراه) والأبحاث المحكمة وفق اللوائح الجامعية المعتمدة وضبط الهوامش والفهارس.",
+      icon: "frame"
+    },
+    {
+      title: "تصميم العروض التقديمية (Presentations)",
+      description: "إعداد وتصميم شرائح العروض التقديمية للمؤتمرات والندوات وورش العمل بأسلوب بصري تفاعلي ومؤثر.",
+      icon: "megaphone"
     },
     {
       title: "إخراج المناهج والكتب التعليمية",
@@ -87,11 +99,6 @@ const PORTFOLIO_DATA = {
       title: "تصميم البروشورات والمطويات",
       description: "تصاميم مطبوعات ترويجية وتوعوية (Tri-fold / Bi-fold) معدة للطباعة الفاخرة بأعلى معايير الدقة.",
       icon: "printer"
-    },
-    {
-      title: "تصميم الهوية البصرية والشعارات",
-      description: "بناء شخصية بصرية متكاملة وشعارات وألوان متناسقة تمنح علامتك التجارية تميزاً وثقة.",
-      icon: "fingerprint"
     },
     {
       title: "تصاميم السوشيال ميديا والإعلانات",
@@ -154,6 +161,35 @@ const PORTFOLIO_DATA = {
         "assets/book/book-page-09.png",
         "assets/book/book-page-10.png",
         "assets/book/book-page-11.png"
+      ]
+    },
+    {
+      id: "scientific-thesis",
+      title: "تنسيق وإخراج الرسائل العلمية",
+      client: "باحثون أكاديميون وجامعات (أطروحة مواجهة الإخلال بأحكام الصحة)",
+      category: "تنسيق وإخراج الرسائل العلمية",
+      year: "2024",
+      image: "assets/dr/thesis-page-01.jpg",
+      summary: "تنسيق وإخراج داخلي احترافي للرسائل والأطروحات العلمية مع ضبط الهوامش والمراجع والفهارس وفق معايير الجامعات (15 صفحة ونموذجاً).",
+      overview: "مشروع متخصص في التنسيق والإخراج الأكاديمي للرسائل العلمية وأطروحات الماجستير والدكتوراه (نموذج أطروحة مواجهة الإخلال بأحكام الصحة). يشمل تصميم الغلاف المعتمد، ضبط وتوحيد الخطوط والتايبوغرافي الأكاديمي، تنسيق الهوامش السفلية وعلامات التنصيص والمراجع، وإعداد فهارس الآيات والأحاديث والمصادر بدقة متناهية توافق معايير اللجان والمجالس العلمية.",
+      role: "الإخراج الأكاديمي، التنسيق التايبوغرافي، وتصميم الغلاف والفهارس",
+      tools: ["Adobe InDesign", "Adobe Photoshop"],
+      gallery: [
+        "assets/dr/thesis-page-01.jpg",
+        "assets/dr/thesis-page-02.jpg",
+        "assets/dr/thesis-page-03.jpg",
+        "assets/dr/thesis-page-04.jpg",
+        "assets/dr/thesis-page-05.jpg",
+        "assets/dr/thesis-page-06.jpg",
+        "assets/dr/thesis-page-07.jpg",
+        "assets/dr/thesis-page-08.jpg",
+        "assets/dr/thesis-page-09.jpg",
+        "assets/dr/thesis-page-10.jpg",
+        "assets/dr/thesis-page-11.jpg",
+        "assets/dr/thesis-page-12.jpg",
+        "assets/dr/thesis-page-13.jpg",
+        "assets/dr/thesis-page-14.jpg",
+        "assets/dr/thesis-page-15.jpg"
       ]
     },
     {
@@ -245,18 +281,57 @@ const PORTFOLIO_DATA = {
       ]
     },
     {
+      id: "presentation",
+      title: "برزنتيشن",
+      client: "مؤتمرات وورش عمل ومؤسسات تدريبية",
+      category: "برزنتيشن",
+      year: "2024",
+      image: "assets/przntation/slide-01.jpg",
+      summary: "تصميم وإخراج عروض تقديمية (Presentations) تفاعلية جذابة تشمل عرض 'من قاعات الدراسة إلى الميدان العملي' ونماذج عروض أعمال رقمية (23 شريحة).",
+      overview: "تصميم احترافي لعروض الشرائح والتقديم (Presentations) للمؤتمرات والمحاضرات وحقائب التدريب. يضم العرض التفاعلي الكامل 'من قاعات الدراسة إلى الميدان العملي' ونماذج لعروض البورتفليو الرقمية، بتوزيع بصري متوازن يجمع بين الرسوم التوضيحية، الإنفوجرافيك، والرسائل النصية المركزة التي تحافظ على انتباه وتفاعل الجمهور.",
+      role: "تصميم الشرائح، صياغة الإنفوجرافيك، والتنسيق البصري للعرض",
+      tools: ["Adobe Illustrator", "Adobe Photoshop", "PowerPoint"],
+      gallery: [
+        "assets/przntation/slide-01.jpg",
+        "assets/przntation/slide-02.jpg",
+        "assets/przntation/slide-03.jpg",
+        "assets/przntation/slide-04.jpg",
+        "assets/przntation/slide-05.jpg",
+        "assets/przntation/slide-06.jpg",
+        "assets/przntation/slide-07.jpg",
+        "assets/przntation/slide-08.jpg",
+        "assets/przntation/slide-09.jpg",
+        "assets/przntation/slide-10.jpg",
+        "assets/przntation/slide-11.jpg",
+        "assets/przntation/slide-12.jpg",
+        "assets/przntation/slide-13.jpg",
+        "assets/przntation/slide-14.jpg",
+        "assets/przntation/slide-15.jpg",
+        "assets/przntation/slide-16.jpg",
+        "assets/przntation/slide-17.jpg",
+        "assets/przntation/slide-18.jpg",
+        "assets/przntation/slide-19.jpg",
+        "assets/przntation/slide-20.jpg",
+        "assets/przntation/slide-21.jpg",
+        "assets/przntation/slide-22.jpg",
+        "assets/przntation/slide-23.jpg"
+      ]
+    },
+    {
       id: "web-mobile-app",
       title: "تطبيقات الويب والموبايل (Web & App)",
       client: "Google Play Store / mr1graphics",
       category: "تطبيقات الويب والموبايل",
       year: "2024",
-      image: "assets/app/app-cover.jpg",
+      image: "assets/app/app-main-cover.jpg",
       appUrl: "https://play.google.com/store/apps/details?id=com.mr1graphics.menhajalmuslim",
-      summary: "تصميم واجهات وتجربة المستخدم لتطبيقات الهاتف والويب (UI/UX) تشمل تطبيق السياحة والرحلات وتطبيق منهاج المسلم على متجر Google Play (32 شاشة ونموذجاً).",
-      overview: "مشروع احترافي متكامل في تصميم واجهات وتجربة المستخدم (UI/UX Design) لتطبيقات الموبايل والويب. يضم تصاميم عصرية لتطبيق السياحة وحجز الرحلات، وتطبيق 'منهاج المسلم' المنشور رسمياً على متجر Google Play، مع الاهتمام بأدق التفاصيل التفاعلية، تناغم الألوان، وضوح التايبوغرافي، وتسهيل تجربة المستخدم للوصول لكافة الخصائص بسلاسة تامة.",
-      role: "تصميم واجهات المستخدم (UI/UX Design)، تصميم الأيقونات والهوية البصرية",
+      summary: "تصميم واجهات وتجربة المستخدم لتطبيقات الهاتف والويب (UI/UX) تشمل لوحة تحكم تفاعلية (Web Dashboard)، تطبيق السياحة والرحلات، وتطبيق منهاج المسلم على متجر Google Play (34 شاشة ونموذجاً).",
+      overview: "مشروع احترافي متكامل في تصميم واجهات وتجربة المستخدم (UI/UX Design) لتطبيقات الموبايل والويب. يضم تصاميم عصرية للوحة تحكم تفاعلية (Interactive Web Dashboard)، وتطبيق السياحة وحجز الرحلات، وتطبيق 'منهاج المسلم' المنشور رسمياً على متجر Google Play، مع الاهتمام بأدق التفاصيل التفاعلية، تناغم الألوان، وضوح التايبوغرافي، وتسهيل تجربة المستخدم للوصول لكافة الخصائص بسلاسة تامة.",
+      role: "تصميم واجهات المستخدم (UI/UX Design)، تصميم لوحات التحكم والأيقونات والهوية البصرية",
       tools: ["Figma", "Adobe XD", "Adobe Photoshop", "Adobe Illustrator"],
       gallery: [
+        "assets/app/app-main-cover.jpg",
+        "assets/app/web-dashboard-ui.jpg",
         "assets/app/app-cover.jpg",
         "assets/app/app-screen-02.jpg",
         "assets/app/app-screen-03.jpg",
