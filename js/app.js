@@ -121,15 +121,14 @@ document.addEventListener("DOMContentLoaded", () => {
       : data.projects.filter(p => p.category === activeCategory);
 
     projectsGrid.innerHTML = filtered.map((project, index) => {
-      const isFirstAll = index === 0 && activeCategory === "الكل";
       const totalPages = (project.gallery && project.gallery.length > 1) ? project.gallery.length : null;
       
       return `
-        <div class="project-card reveal is-visible ${isFirstAll ? 'is-first-all' : ''}" data-project-id="${project.id}">
+        <div class="project-card reveal is-visible" data-project-id="${project.id}">
           <img src="${project.image}" alt="${project.title}" loading="lazy" class="project-card-img" />
           <div class="project-card-gradient"></div>
           
-          ${totalPages ? `<span class="project-badge pages-count">${totalPages} نماذج وتصاميم</span>` : (project.isPlaceholder ? `<span class="project-badge">نموذج توضيحي</span>` : '')}
+          ${totalPages ? `<span class="project-badge pages-count">${totalPages} نماذج وتصاميم</span>` : ''}
           
           <div class="project-card-content">
             <span class="eyebrow" style="font-size:0.75rem;">${project.category}</span>
@@ -153,61 +152,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   renderProjects();
 
-  // 5. قسم الأعمال المميزة (Featured Projects)
-  const featuredContainer = document.getElementById("featured-projects-list");
-  if (featuredContainer) {
-    const featured = data.projects.filter(p => p.featured);
-    featuredContainer.innerHTML = featured.map((project, idx) => {
-      const isReverse = idx % 2 === 1;
-      const totalPages = (project.gallery && project.gallery.length > 1) ? project.gallery.length : null;
-
-      return `
-        <div class="featured-row ${isReverse ? 'reverse' : ''} reveal">
-          <div class="featured-media">
-            <div class="project-card featured-large" data-project-id="${project.id}">
-              <img src="${project.image}" alt="${project.title}" loading="lazy" class="project-card-img" />
-              <div class="project-card-gradient"></div>
-              ${totalPages ? `<span class="project-badge pages-count">${totalPages} نماذج وتصاميم</span>` : (project.isPlaceholder ? `<span class="project-badge">نموذج توضيحي</span>` : '')}
-              <div class="project-card-content">
-                <span class="eyebrow" style="font-size:0.75rem;">${project.category}</span>
-                <div class="project-card-title-row">
-                  <h3 class="project-card-title">${project.title}</h3>
-                  <span class="project-card-arrow-btn">${ICONS.arrowUpLeft}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="featured-info">
-            <span class="featured-index">0${idx + 1}</span>
-            <h3 class="featured-title">${project.title}</h3>
-            <p class="featured-summary">${project.summary}</p>
-            <div class="featured-meta-grid">
-              <div>
-                <span class="meta-label">العميل</span>
-                <div class="meta-value">${project.client}</div>
-              </div>
-              <div>
-                <span class="meta-label">السنة</span>
-                <div class="meta-value">${project.year}</div>
-              </div>
-            </div>
-            <button type="button" class="btn-open-details" data-project-id="${project.id}">
-              استعراض كافة الصور والتفاصيل ${ICONS.arrowLeft}
-            </button>
-          </div>
-        </div>
-      `;
-    }).join("");
-
-    featuredContainer.querySelectorAll("[data-project-id]").forEach(el => {
-      el.addEventListener("click", () => {
-        const id = el.getAttribute("data-project-id");
-        openProjectModal(id);
-      });
-    });
-  }
-
-  // 6. قسم الخدمات (Services)
+  // 5. قسم الخدمات (Services)
   const servicesGrid = document.getElementById("services-grid-container");
   if (servicesGrid) {
     servicesGrid.innerHTML = data.services.map(s => `
@@ -219,7 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
     `).join("");
   }
 
-  // 7. قسم المهارات (Skills)
+  // 6. قسم المهارات (Skills)
   const skillsGrid = document.getElementById("skills-grid-container");
   if (skillsGrid) {
     skillsGrid.innerHTML = data.skills.map(skill => `
@@ -230,7 +175,7 @@ document.addEventListener("DOMContentLoaded", () => {
     `).join("");
   }
 
-  // 8. وسائل التواصل وأرقام الهواتف
+  // 7. وسائل التواصل وأرقام الهواتف
   const socialsList = document.getElementById("contact-socials-list");
   if (socialsList) {
     socialsList.innerHTML = data.profile.socials.map(soc => `
@@ -255,7 +200,7 @@ document.addEventListener("DOMContentLoaded", () => {
     `).join("");
   }
 
-  // 9. نافذة تفاصيل المشروع ومعرض الصور المتقدم (Interactive Gallery Modal)
+  // 8. نافذة تفاصيل المشروع ومعرض الصور المتقدم (Interactive Gallery Modal)
   const modalBackdrop = document.getElementById("project-modal-backdrop");
   const modalCloseBtn = document.getElementById("modal-close-btn");
   const modalImg = document.getElementById("modal-project-img");
@@ -383,11 +328,11 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("keydown", (e) => {
     if (!modalBackdrop.classList.contains("is-active")) return;
     if (e.key === "Escape") closeProjectModal();
-    if (e.key === "ArrowLeft") showNextImage(); // في اتجاه RTL السهم الأيسر هو التالي
+    if (e.key === "ArrowLeft") showNextImage();
     if (e.key === "ArrowRight") showPrevImage();
   });
 
-  // 10. تفعيل حركة الظهور عند التمرير (Intersection Observer)
+  // 9. تفعيل حركة الظهور عند التمرير (Intersection Observer)
   const revealElements = document.querySelectorAll(".reveal");
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
