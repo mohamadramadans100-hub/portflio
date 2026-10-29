@@ -48,10 +48,10 @@ const PORTFOLIO_DATA = {
   categories: [
     "الكل",
     "كتب وروايات",
+    "كتب تعليمية",
     "تنسيق وإخراج الرسائل العلمية",
     "المجلة السعودية",
     "التقارير الدولية",
-    "كتب تعليمية",
     "بروشور",
     "برزنتيشن",
     "تطبيقات الويب والموبايل",
@@ -164,6 +164,32 @@ const PORTFOLIO_DATA = {
       ]
     },
     {
+      id: "educational-books",
+      title: "كتب تعليمية",
+      client: "دار نشر سلاح الأزهري / المرحلة الثانوية",
+      category: "كتب تعليمية",
+      year: "2024",
+      image: "assets/azhar/educational-cover.png",
+      summary: "تصميم وإخراج المناهج والكتب التعليمية والأزهرية بتنسيق تفاعلي وتوزيع دقيق للجداول والتمارين والأسئلة (12 نموذجاً).",
+      overview: "مشروع متخصص في تصميم وتنسيق وإخراج الكتب الدراسية والمناهج التعليمية (نماذج الأزهر الشريف والمرحلة الثانوية). يركز على تيسير المعلومة بصرياً من خلال تقسيم الدروس، إبراز القواعد النحوية والشروحات في صناديق مميزة، وتنسيق الأنشطة والتدريبات بطريقة تعليمية جذابة ومريحة للمذاكرة.",
+      role: "تصميم الغلاف، الإخراج التعليمي، والتنسيق الداخلي",
+      tools: ["Adobe InDesign", "Adobe Photoshop", "Adobe Illustrator"],
+      gallery: [
+        "assets/azhar/educational-cover.png",
+        "assets/azhar/educational-page-02.png",
+        "assets/azhar/educational-page-03.png",
+        "assets/azhar/educational-page-04.png",
+        "assets/azhar/educational-page-05.png",
+        "assets/azhar/educational-page-06.png",
+        "assets/azhar/educational-page-07.png",
+        "assets/azhar/educational-page-08.png",
+        "assets/azhar/educational-page-09.png",
+        "assets/azhar/educational-page-10.png",
+        "assets/azhar/educational-page-11.png",
+        "assets/azhar/educational-page-12.png"
+      ]
+    },
+    {
       id: "scientific-thesis",
       title: "تنسيق وإخراج الرسائل العلمية",
       client: "باحثون أكاديميون وجامعات (أطروحة مواجهة الإخلال بأحكام الصحة)",
@@ -233,32 +259,6 @@ const PORTFOLIO_DATA = {
         "assets/report/report-page-05.png",
         "assets/report/report-page-06.png",
         "assets/report/report-page-07.png"
-      ]
-    },
-    {
-      id: "educational-books",
-      title: "كتب تعليمية",
-      client: "دار نشر سلاح الأزهري / المرحلة الثانوية",
-      category: "كتب تعليمية",
-      year: "2024",
-      image: "assets/azhar/educational-cover.png",
-      summary: "تصميم وإخراج المناهج والكتب التعليمية والأزهرية بتنسيق تفاعلي وتوزيع دقيق للجداول والتمارين والأسئلة (12 نموذجاً).",
-      overview: "مشروع متخصص في تصميم وتنسيق وإخراج الكتب الدراسية والمناهج التعليمية (نماذج الأزهر الشريف والمرحلة الثانوية). يركز على تيسير المعلومة بصرياً من خلال تقسيم الدروس، إبراز القواعد النحوية والشروحات في صناديق مميزة، وتنسيق الأنشطة والتدريبات بطريقة تعليمية جذابة ومريحة للمذاكرة.",
-      role: "تصميم الغلاف، الإخراج التعليمي، والتنسيق الداخلي",
-      tools: ["Adobe InDesign", "Adobe Photoshop", "Adobe Illustrator"],
-      gallery: [
-        "assets/azhar/educational-cover.png",
-        "assets/azhar/educational-page-02.png",
-        "assets/azhar/educational-page-03.png",
-        "assets/azhar/educational-page-04.png",
-        "assets/azhar/educational-page-05.png",
-        "assets/azhar/educational-page-06.png",
-        "assets/azhar/educational-page-07.png",
-        "assets/azhar/educational-page-08.png",
-        "assets/azhar/educational-page-09.png",
-        "assets/azhar/educational-page-10.png",
-        "assets/azhar/educational-page-11.png",
-        "assets/azhar/educational-page-12.png"
       ]
     },
     {
