@@ -1,8 +1,37 @@
 /* =========================================================================
-   Portfolio Master Stylesheet - Cairo Font & Dark Luxury Theme
+   Portfolio Master Stylesheet - Cairo Font & Light / Dark Dual Theme
+   الوضع السائد الافتراضي: الوضع النهاري (Light Mode)
    ========================================================================= */
 
-:root {
+:root, html[data-theme="light"] {
+  --theme-mode: 'light';
+  --ink-950: #f8fafc;
+  --ink-900: #ffffff;
+  --ink-850: #f1f5f9;
+  --ink-800: #e2e8f0;
+  --sky-300: #0284c7;
+  --sky-400: #0369a1;
+  --sky-500: #075985;
+  --text-white: #0f172a;
+  --text-slate-100: #1e293b;
+  --text-slate-200: #334155;
+  --text-slate-300: #475569;
+  --text-slate-400: #64748b;
+  --text-slate-500: #94a3b8;
+  --border-white-5: rgba(15, 23, 42, 0.05);
+  --border-white-10: rgba(15, 23, 42, 0.08);
+  --border-white-15: rgba(15, 23, 42, 0.14);
+  --header-bg: rgba(255, 255, 255, 0.9);
+  --card-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.07), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+  --section-bg-alt: #f1f5f9;
+  --modal-bg: #ffffff;
+  --reader-bg: #f8fafc;
+  --book-card-bg: #ffffff;
+  --font-family: 'Cairo', system-ui, -apple-system, sans-serif;
+}
+
+html[data-theme="dark"] {
+  --theme-mode: 'dark';
   --ink-950: #050811;
   --ink-900: #0a1020;
   --ink-850: #0f172a;
@@ -19,7 +48,12 @@
   --border-white-5: rgba(255, 255, 255, 0.05);
   --border-white-10: rgba(255, 255, 255, 0.1);
   --border-white-15: rgba(255, 255, 255, 0.15);
-  --font-family: 'Cairo', system-ui, -apple-system, sans-serif;
+  --header-bg: rgba(5, 8, 17, 0.85);
+  --card-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  --section-bg-alt: rgba(10, 16, 32, 0.4);
+  --modal-bg: #0a1020;
+  --reader-bg: linear-gradient(180deg, rgba(5, 8, 17, 0.6) 0%, rgba(10, 16, 32, 0.95) 100%);
+  --book-card-bg: #04060c;
 }
 
 *, *::before, *::after {
@@ -35,6 +69,7 @@ html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   direction: rtl;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 body {
@@ -42,6 +77,7 @@ body {
   overflow-x: hidden;
   background-color: var(--ink-950);
   line-height: 1.6;
+  transition: background-color 0.3s ease;
 }
 
 /* Typography & Display */
@@ -77,11 +113,12 @@ header.site-header {
   inset-inline: 0;
   top: 0;
   z-index: 40;
-  border-bottom: 1px solid var(--border-white-5);
-  background: rgba(5, 8, 17, 0.85);
+  border-bottom: 1px solid var(--border-white-10);
+  background: var(--header-bg);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   padding-top: env(safe-area-inset-top, 0);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .nav-container {
@@ -114,25 +151,33 @@ header.site-header {
   justify-content: center;
   border-radius: 0.75rem;
   background-color: var(--sky-300);
-  color: var(--ink-950);
+  color: #ffffff;
+  transition: background-color 0.3s ease;
 }
 
 .brand-name {
   font-size: 1.125rem;
   font-weight: 700;
+  color: var(--text-white);
 }
 
-.nav-desktop-menu {
+.desktop-nav-group {
   display: none;
   align-items: center;
   gap: 1.75rem;
-  list-style: none;
 }
 
 @media (min-width: 1024px) {
-  .nav-desktop-menu {
+  .desktop-nav-group {
     display: flex;
   }
+}
+
+.nav-desktop-menu {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+  list-style: none;
 }
 
 .nav-link {
@@ -145,7 +190,7 @@ header.site-header {
 }
 
 .nav-link:hover {
-  color: var(--text-white);
+  color: var(--sky-300);
 }
 
 .nav-link::after {
@@ -165,6 +210,56 @@ header.site-header {
   transform: scaleX(1);
 }
 
+/* Theme Toggle Button (Light / Dark) */
+.theme-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  border: 1px solid var(--border-white-15);
+  background-color: var(--ink-850);
+  color: var(--text-slate-100);
+  padding: 0.45rem 0.95rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-family: inherit;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.theme-toggle-btn:hover {
+  border-color: var(--sky-300);
+  color: var(--sky-300);
+  transform: translateY(-1px);
+}
+
+.theme-icon-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--sky-300);
+}
+
+.mobile-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+@media (min-width: 1024px) {
+  .mobile-nav-actions {
+    display: none;
+  }
+}
+
+.mobile-theme-btn {
+  padding: 0.5rem;
+  height: 2.75rem;
+  width: 2.75rem;
+  justify-content: center;
+}
+
 .menu-toggle-btn {
   display: flex;
   height: 2.75rem;
@@ -172,17 +267,11 @@ header.site-header {
   align-items: center;
   justify-content: center;
   border-radius: 9999px;
-  border: 1px solid var(--border-white-10);
-  background: transparent;
+  border: 1px solid var(--border-white-15);
+  background: var(--ink-850);
   color: var(--text-white);
   cursor: pointer;
   transition: border-color 0.3s;
-}
-
-@media (min-width: 1024px) {
-  .menu-toggle-btn {
-    display: none;
-  }
 }
 
 .menu-toggle-btn:hover {
@@ -191,8 +280,8 @@ header.site-header {
 
 .mobile-menu {
   overflow: hidden;
-  border-top: 1px solid var(--border-white-5);
-  background-color: rgba(10, 16, 32, 0.98);
+  border-top: 1px solid var(--border-white-10);
+  background-color: var(--ink-900);
   transition: max-height 0.4s ease;
   max-height: 0;
 }
@@ -334,18 +423,23 @@ header.site-header {
   padding: 0.75rem 1.75rem;
   font-size: 0.9375rem;
   font-weight: 700;
-  color: var(--ink-950);
+  color: #ffffff;
   text-decoration: none;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 20px -2px rgba(125, 211, 252, 0.35);
+  box-shadow: 0 4px 20px -2px rgba(2, 132, 199, 0.35);
   border: none;
   cursor: pointer;
 }
 
+html[data-theme="dark"] .btn-primary {
+  color: var(--ink-950);
+  box-shadow: 0 4px 20px -2px rgba(125, 211, 252, 0.35);
+}
+
 .btn-primary:hover {
   transform: translateY(-2px);
-  background-color: #ffffff;
-  box-shadow: 0 12px 30px -4px rgba(125, 211, 252, 0.55);
+  background-color: var(--sky-400);
+  color: #ffffff;
 }
 
 .btn-secondary {
@@ -380,8 +474,8 @@ header.site-header {
   overflow: hidden;
   border-radius: 2rem;
   border: 1px solid var(--border-white-15);
-  background: radial-gradient(circle at center, rgba(30, 41, 59, 0.5) 0%, rgba(5, 8, 17, 0.9) 100%);
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 35px rgba(56, 189, 248, 0.12);
+  background: var(--ink-900);
+  box-shadow: var(--card-shadow);
 }
 
 .hero-image-box img {
@@ -399,7 +493,7 @@ header.site-header {
 .hero-image-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(5, 8, 17, 0.75) 0%, transparent 60%);
+  background: linear-gradient(to top, rgba(5, 8, 17, 0.45) 0%, transparent 60%);
 }
 
 .hero-badge-card {
@@ -408,10 +502,10 @@ header.site-header {
   right: 1rem;
   border-radius: 1rem;
   border: 1px solid var(--border-white-10);
-  background-color: rgba(10, 16, 32, 0.92);
+  background-color: var(--ink-900);
   padding: 1rem 1.25rem;
   backdrop-filter: blur(12px);
-  box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+  box-shadow: var(--card-shadow);
 }
 
 .hero-badge-number {
@@ -439,7 +533,7 @@ section.section-py {
 
 .section-bordered {
   border-block: 1px solid var(--border-white-5);
-  background-color: rgba(10, 16, 32, 0.4);
+  background-color: var(--section-bg-alt);
 }
 
 .section-header {
@@ -507,6 +601,10 @@ section.section-py {
 .filter-btn.active {
   background-color: var(--sky-300);
   border-color: var(--sky-300);
+  color: #ffffff;
+}
+
+html[data-theme="dark"] .filter-btn.active {
   color: var(--ink-950);
 }
 
@@ -827,9 +925,10 @@ section.section-py {
   gap: 1rem;
   border-radius: 1.5rem;
   border: 1px solid var(--border-white-10);
-  background-color: rgba(10, 16, 32, 0.6);
+  background-color: var(--ink-900);
   padding: 1.5rem 1.75rem;
   transition: all 0.4s ease;
+  box-shadow: var(--card-shadow);
 }
 
 .skill-card:hover {
@@ -860,6 +959,7 @@ section.section-py {
   border: 1px solid var(--border-white-10);
   background-color: var(--ink-900);
   padding: 1.5rem 1rem;
+  box-shadow: var(--card-shadow);
 }
 
 @media (min-width: 640px) {
@@ -918,7 +1018,7 @@ section.section-py {
   gap: 0.75rem;
   border-radius: 1rem;
   border: 1px solid var(--border-white-10);
-  background-color: rgba(5, 8, 17, 0.6);
+  background-color: var(--ink-850);
   padding: 1rem;
   text-decoration: none;
   color: inherit;
@@ -929,8 +1029,8 @@ section.section-py {
 }
 
 .contact-email-box:hover {
-  border-color: rgba(125, 211, 252, 0.5);
-  background-color: rgba(10, 16, 32, 0.8);
+  border-color: var(--sky-300);
+  background-color: var(--ink-900);
 }
 
 .contact-email-inner {
@@ -1027,7 +1127,7 @@ section.section-py {
   gap: 0.75rem;
   border-radius: 0.75rem;
   border: 1px solid var(--border-white-10);
-  background-color: rgba(5, 8, 17, 0.6);
+  background-color: var(--ink-850);
   padding: 0.75rem 0.875rem;
   font-size: clamp(0.8125rem, 3vw, 0.875rem);
   font-weight: 600;
@@ -1113,9 +1213,9 @@ footer.site-footer {
   overflow-y: auto;
   border-radius: 1.5rem 1.5rem 0 0;
   border: 1px solid var(--border-white-10);
-  background-color: var(--ink-900);
+  background-color: var(--modal-bg);
   padding-bottom: env(safe-area-inset-bottom, 1rem);
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
   transform: translateY(20px);
   transition: transform 0.3s ease;
   scrollbar-width: thin;
@@ -1147,18 +1247,18 @@ footer.site-footer {
   align-items: center;
   justify-content: center;
   border-radius: 9999px;
-  background-color: rgba(5, 8, 17, 0.85);
+  background-color: var(--ink-850);
   color: var(--text-white);
   border: 1px solid var(--border-white-15);
   cursor: pointer;
   backdrop-filter: blur(6px);
   transition: all 0.2s;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 .modal-close-btn:hover {
   background-color: var(--sky-300);
-  color: var(--ink-950);
+  color: #ffffff;
   border-color: var(--sky-300);
 }
 
@@ -1199,7 +1299,7 @@ footer.site-footer {
 
 .tool-tag {
   border-radius: 9999px;
-  background-color: rgba(125, 211, 252, 0.1);
+  background-color: rgba(2, 132, 199, 0.1);
   padding: 0.25rem 0.75rem;
   font-size: 0.75rem;
   font-weight: 700;
@@ -1237,7 +1337,7 @@ footer.site-footer {
 .modal-vertical-reader-section {
   border-top: 1px solid var(--border-white-10);
   padding: 2rem 1.25rem 3rem;
-  background: linear-gradient(180deg, rgba(5, 8, 17, 0.6) 0%, rgba(10, 16, 32, 0.95) 100%);
+  background: var(--reader-bg);
 }
 
 @media (min-width: 768px) {
@@ -1289,8 +1389,8 @@ footer.site-footer {
 
 .reader-pages-badge {
   border-radius: 9999px;
-  background-color: rgba(125, 211, 252, 0.15);
-  border: 1px solid rgba(125, 211, 252, 0.3);
+  background-color: rgba(2, 132, 199, 0.12);
+  border: 1px solid rgba(2, 132, 199, 0.25);
   color: var(--sky-300);
   padding: 0.4rem 1.125rem;
   font-size: 0.875rem;
@@ -1310,11 +1410,11 @@ footer.site-footer {
   position: relative;
   width: 100%;
   max-width: 52rem;
-  background-color: #04060c;
+  background-color: var(--book-card-bg);
   border-radius: 1rem;
   border: 1px solid var(--border-white-15);
   overflow: hidden;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.65), 0 1px 0 rgba(255, 255, 255, 0.08) inset;
+  box-shadow: var(--card-shadow);
   cursor: pointer;
   transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
@@ -1322,7 +1422,7 @@ footer.site-footer {
 .book-page-card:hover {
   transform: translateY(-4px);
   border-color: var(--sky-300);
-  box-shadow: 0 20px 45px rgba(125, 211, 252, 0.2), 0 1px 0 rgba(255, 255, 255, 0.15) inset;
+  box-shadow: 0 20px 45px rgba(2, 132, 199, 0.2);
 }
 
 .book-page-top-bar {
@@ -1330,7 +1430,7 @@ footer.site-footer {
   align-items: center;
   justify-content: space-between;
   padding: 0.75rem 1.25rem;
-  background-color: rgba(10, 16, 32, 0.95);
+  background-color: var(--ink-850);
   border-bottom: 1px solid var(--border-white-10);
   font-size: 0.8125rem;
 }
@@ -1359,7 +1459,7 @@ footer.site-footer {
 .book-page-img-wrapper {
   position: relative;
   width: 100%;
-  background-color: #030408;
+  background-color: var(--ink-950);
   display: flex;
   align-items: center;
   justify-content: center;

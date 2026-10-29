@@ -1,18 +1,28 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>محمد رمضان | مصمم جرافيك ومخرج مطبوعات</title>
   <meta name="description" content="معرض أعمال محمد رمضان، مصمم جرافيك متخصص في تصميم وتنسيق الكتب والروايات، المناهج التعليمية، المجلات، والتقارير الدولية، وتطبيقات الويب والموبايل." />
   
+  <!-- تفعيل الثيم الافتراضي (النهاري) فوراً قبل الرندر لمنع الوميض -->
+  <script>
+    (function() {
+      try {
+        var t = localStorage.getItem("portfolio_theme") || "light";
+        document.documentElement.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+
   <!-- خط كايرو الفاخر من Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet" />
 
   <!-- أيقونة الموقع (Favicon) -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%237dd3fc'><path d='m9.06 11.9 8.07-8.06a2.85 2.85 0 1 1 4.03 4.03l-8.06 8.08'/></svg>" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230284c7'><path d='m9.06 11.9 8.07-8.06a2.85 2.85 0 1 1 4.03 4.03l-8.06 8.08'/></svg>" />
 
   <!-- ورقة الأنماط الرئيسية -->
   <link rel="stylesheet" href="css/style.css" />
@@ -31,11 +41,24 @@
           <span class="brand-name" data-bind="profile.name">محمد رمضان</span>
         </a>
 
-        <!-- روابط القائمة لشاشات الكمبيوتر -->
-        <ul id="desktop-nav-menu" class="nav-desktop-menu"></ul>
+        <!-- روابط القائمة وأدوات التحكم لشاشات الكمبيوتر -->
+        <div class="desktop-nav-group">
+          <ul id="desktop-nav-menu" class="nav-desktop-menu"></ul>
 
-        <!-- زر القائمة لشاشات الهاتف -->
-        <button type="button" id="mobile-menu-toggle" class="menu-toggle-btn" aria-label="فتح القائمة"></button>
+          <!-- زر تبديل الوضع النهاري / الليلي -->
+          <button type="button" id="theme-toggle-btn" class="theme-toggle-btn" aria-label="تبديل الوضع النهاري والليلي" title="تبديل الوضع">
+            <span id="theme-icon-slot" class="theme-icon-box"></span>
+            <span id="theme-text-slot" class="theme-text-label">الوضع الليلي</span>
+          </button>
+        </div>
+
+        <!-- أزرار شاشات الهاتف: زر الثيم وزر فتح القائمة -->
+        <div class="mobile-nav-actions">
+          <button type="button" id="mobile-theme-toggle-btn" class="theme-toggle-btn mobile-theme-btn" aria-label="تبديل الوضع" title="تبديل الوضع">
+            <span id="mobile-theme-icon-slot" class="theme-icon-box"></span>
+          </button>
+          <button type="button" id="mobile-menu-toggle" class="menu-toggle-btn" aria-label="فتح القائمة"></button>
+        </div>
       </nav>
     </div>
 

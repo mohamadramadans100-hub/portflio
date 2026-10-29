@@ -22,12 +22,44 @@ const ICONS = {
   mapPin: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>`,
   menu: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>`,
   x: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>`,
-  googlePlay: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3.609 1.814L13.793 12 3.61 22.186a2.22 2.22 0 0 1-.61-.926V2.74c0-.342.22-.66.61-.926zm11.3 11.3l2.55-2.55-12.01-6.95 9.46 9.5zm0 1.772l-9.46 9.5 12.01-6.95-2.55-2.55zm1.258-1.258l3.15 1.82a1.44 1.44 0 0 0 0-2.484l-3.15-1.82-1.42 1.42 1.42 1.064z"/></svg>`
+  googlePlay: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3.609 1.814L13.793 12 3.61 22.186a2.22 2.22 0 0 1-.61-.926V2.74c0-.342.22-.66.61-.926zm11.3 11.3l2.55-2.55-12.01-6.95 9.46 9.5zm0 1.772l-9.46 9.5 12.01-6.95-2.55-2.55zm1.258-1.258l3.15 1.82a1.44 1.44 0 0 0 0-2.484l-3.15-1.82-1.42 1.42 1.42 1.064z"/></svg>`,
+  sun: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>`,
+  moon: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>`
 };
 
 document.addEventListener("DOMContentLoaded", () => {
   const data = PORTFOLIO_DATA;
   let activeCategory = "الكل";
+
+  // 0. إدارة الوضع النهاري والليلي (Light / Dark Theme) - الافتراضي هو الوضع النهاري
+  const themeToggleBtn = document.getElementById("theme-toggle-btn");
+  const themeIconSlot = document.getElementById("theme-icon-slot");
+  const themeTextSlot = document.getElementById("theme-text-slot");
+  const mobileThemeToggleBtn = document.getElementById("mobile-theme-toggle-btn");
+  const mobileThemeIconSlot = document.getElementById("mobile-theme-icon-slot");
+
+  let currentTheme = localStorage.getItem("portfolio_theme") || "light";
+
+  function applyTheme(theme) {
+    currentTheme = theme;
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("portfolio_theme", theme);
+
+    const isDark = theme === "dark";
+    if (themeIconSlot) themeIconSlot.innerHTML = isDark ? ICONS.sun : ICONS.moon;
+    if (themeTextSlot) themeTextSlot.textContent = isDark ? "الوضع النهاري" : "الوضع الليلي";
+    if (mobileThemeIconSlot) mobileThemeIconSlot.innerHTML = isDark ? ICONS.sun : ICONS.moon;
+  }
+
+  function toggleTheme() {
+    applyTheme(currentTheme === "light" ? "dark" : "light");
+  }
+
+  if (themeToggleBtn) themeToggleBtn.addEventListener("click", toggleTheme);
+  if (mobileThemeToggleBtn) mobileThemeToggleBtn.addEventListener("click", toggleTheme);
+
+  // تفعيل الثيم الحالي
+  applyTheme(currentTheme);
 
   // 1. حقن بيانات الهوية الشخصية
   document.title = `${data.profile.name} | ${data.profile.title}`;
@@ -230,7 +262,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentGallery = [];
   let currentLightboxIdx = 0;
 
-  function openProjectModal(id) {
+  function openProjectModal(id, pushToHistory = true) {
     const project = data.projects.find(p => p.id === id);
     if (!project || !modalBackdrop) return;
 
@@ -316,28 +348,61 @@ document.addEventListener("DOMContentLoaded", () => {
 
     modalBackdrop.classList.add("is-active");
     document.body.style.overflow = "hidden";
+
+    // ضمان بدء التمرير من أعلى النافذة تماماً (وليس من المنتصف)
+    const modalDialog = modalBackdrop.querySelector(".modal-dialog");
+    if (modalDialog) {
+      modalDialog.scrollTop = 0;
+      requestAnimationFrame(() => {
+        modalDialog.scrollTop = 0;
+      });
+      setTimeout(() => {
+        modalDialog.scrollTop = 0;
+      }, 30);
+    }
+
+    // إضافة خطوة في سجل المتصفح لدعم زر الرجوع في الهاتف (Back Button)
+    if (pushToHistory && window.location.hash !== "#project-" + id) {
+      history.pushState({ modalOpen: true, projectId: id }, "", "#project-" + id);
+    }
   }
 
-  function closeProjectModal() {
+  function closeProjectModal(handleHistory = true) {
     if (!modalBackdrop) return;
     modalBackdrop.classList.remove("is-active");
     document.body.style.overflow = "";
-    closeLightbox();
+    closeLightbox(false);
+
+    const modalDialog = modalBackdrop.querySelector(".modal-dialog");
+    if (modalDialog) modalDialog.scrollTop = 0;
+
+    // مزامنة حالة السجل عند الإغلاق اليدوي
+    if (handleHistory && window.location.hash.startsWith("#project-")) {
+      history.back();
+    }
   }
 
   // دوال لايت بوكس التكبير (Fullscreen Lightbox)
-  function openLightbox(index) {
+  function openLightbox(index, pushToHistory = true) {
     if (!lightboxBackdrop || !currentGallery || currentGallery.length === 0) return;
     currentLightboxIdx = (index >= 0 && index < currentGallery.length) ? index : 0;
     updateLightboxStage();
     lightboxBackdrop.classList.add("is-active");
     lightboxBackdrop.setAttribute("aria-hidden", "false");
+
+    if (pushToHistory && window.location.hash !== "#lightbox") {
+      history.pushState({ modalOpen: true, lightboxOpen: true, index }, "", "#lightbox");
+    }
   }
 
-  function closeLightbox() {
+  function closeLightbox(handleHistory = true) {
     if (!lightboxBackdrop) return;
     lightboxBackdrop.classList.remove("is-active");
     lightboxBackdrop.setAttribute("aria-hidden", "true");
+
+    if (handleHistory && window.location.hash === "#lightbox") {
+      history.back();
+    }
   }
 
   function updateLightboxStage() {
@@ -371,12 +436,12 @@ document.addEventListener("DOMContentLoaded", () => {
   // أحداث اللايت بوكس
   if (lightboxNextBtn) lightboxNextBtn.addEventListener("click", showLightboxNext);
   if (lightboxPrevBtn) lightboxPrevBtn.addEventListener("click", showLightboxPrev);
-  if (lightboxCloseBtn) lightboxCloseBtn.addEventListener("click", closeLightbox);
+  if (lightboxCloseBtn) lightboxCloseBtn.addEventListener("click", () => closeLightbox(true));
 
   if (lightboxBackdrop) {
     lightboxBackdrop.addEventListener("click", (e) => {
       if (e.target === lightboxBackdrop || e.target.id === "lightbox-stage-wrapper") {
-        closeLightbox();
+        closeLightbox(true);
       }
     });
   }
@@ -409,12 +474,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (modalCloseBtn) {
     modalCloseBtn.innerHTML = ICONS.x;
-    modalCloseBtn.addEventListener("click", closeProjectModal);
+    modalCloseBtn.addEventListener("click", () => closeProjectModal(true));
   }
 
   if (modalBackdrop) {
     modalBackdrop.addEventListener("click", (e) => {
-      if (e.target === modalBackdrop) closeProjectModal();
+      if (e.target === modalBackdrop) closeProjectModal(true);
     });
   }
 
@@ -422,7 +487,7 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("keydown", (e) => {
     if (lightboxBackdrop && lightboxBackdrop.classList.contains("is-active")) {
       if (e.key === "Escape") {
-        closeLightbox();
+        closeLightbox(true);
         return;
       }
       if (e.key === "ArrowLeft") {
@@ -436,9 +501,33 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (modalBackdrop && modalBackdrop.classList.contains("is-active")) {
-      if (e.key === "Escape") closeProjectModal();
+      if (e.key === "Escape") closeProjectModal(true);
     }
   });
+
+  // معالجة زر الرجوع في الهاتف والمتصفح (Phone Hardware / Browser Back Button)
+  window.addEventListener("popstate", (e) => {
+    // إذا كان اللايت بوكس مفتوحاً، نغلقه فقط ونبقى في تفاصيل المشروع
+    if (lightboxBackdrop && lightboxBackdrop.classList.contains("is-active")) {
+      closeLightbox(false);
+      return;
+    }
+    // إذا كانت نافذة المشروع مفتوحة، نغلقها ونعود للبورتفليو دون مغادرة الموقع أو جوجل
+    if (modalBackdrop && modalBackdrop.classList.contains("is-active")) {
+      closeProjectModal(false);
+      return;
+    }
+  });
+
+  // فتح المشروع مباشرة إذا كان الرابط يطلب ذلك (Deep Linking)
+  if (window.location.hash.startsWith("#project-")) {
+    const targetProjectId = window.location.hash.replace("#project-", "");
+    if (targetProjectId) {
+      setTimeout(() => {
+        openProjectModal(targetProjectId, false);
+      }, 200);
+    }
+  }
 
   // 9. تفعيل حركة الظهور عند التمرير (Intersection Observer)
   const revealElements = document.querySelectorAll(".reveal");
