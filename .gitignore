@@ -1,0 +1,13 @@
+# Dependency and temporary files
+.DS_Store
+Thumbs.db
+*.log
+.idea/
+.vscode/
+*.tmp
+
+# Android build outputs if generated
+.gradle/
+build/
+app/build/
+*.apk
