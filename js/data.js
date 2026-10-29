@@ -14,7 +14,7 @@ const PORTFOLIO_DATA = {
     intro: "خريج جامعة القاهرة بتقدير جيد جداً مع مرتبة الشرف، مصمم جرافيك بخبرة 4 سنوات متخصصة في الإخراج الفني للكتب والمناهج الدراسية، المجلات، التقارير الدولية، وتصميم واجهات وتطبيقات الويب والموبايل.",
     email: "mohamad.ramadans100@gmail.com",
     location: "البراجيل، الجيزة، مصر",
-    heroImage: "assets/images/hero-modern-ui.png",
+    heroImage: "assets/images/hero-modern-workstation.jpg",
     aboutImage: "assets/images/mohamed-ramadan-portrait.png",
     bio: [
       "مصمم جرافيك محترف بخبرة 4 سنوات متخصصة في الإخراج الفني وتنسيق المطبوعات والنشر المكتبي بدار نشر سلاح الأزهري. أمتلك خبرة عميقة في برنامج Adobe InDesign وتوزيع النصوص والتايبوغرافي الدقيق المريح للعين وفق أعلى المعايير الطباعية.",

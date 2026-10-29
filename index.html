@@ -95,7 +95,7 @@
 
           <div class="hero-image-wrapper">
             <div class="hero-image-box">
-              <img id="hero-profile-img" src="assets/images/hero-modern-ui.png" alt="تصميم واجهات ومطبوعات إبداعية" />
+              <img id="hero-profile-img" src="assets/images/hero-modern-workstation.jpg" alt="Modern Office Workstation with City View" />
               <div class="hero-image-overlay"></div>
             </div>
             <div class="hero-badge-card">
@@ -140,23 +140,49 @@
       </div>
     </section>
 
-    <!-- قسم نبذة عني (About Section) -->
+    <!-- قسم نبذة عني (About Section) بدون صورة -->
     <section id="about" class="section-py">
       <div class="max-w-7xl">
-        <div class="about-grid">
-          <div class="reveal">
-            <div class="about-img-box">
-              <img id="about-profile-img" src="assets/images/mohamed-ramadan-portrait.png" alt="المصمم محمد رمضان سعد" loading="lazy" />
-              <div class="about-ambient-ring"></div>
+        <div class="about-card reveal">
+          <div class="about-card-glow"></div>
+
+          <div class="about-header-row">
+            <div>
+              <span class="eyebrow">نبذة عني</span>
+              <h2 class="section-title">
+                مصمم ومخرج مطبوعات وتطبيقات <span style="color:var(--sky-300);">بخبرة <span data-bind="profile.experience">4 سنوات</span></span>
+              </h2>
             </div>
+            <div class="about-tag-badge">دار نشر سلاح الأزهري</div>
           </div>
 
-          <div class="reveal">
-            <span class="eyebrow">نبذة عني</span>
-            <h2 class="section-title">
-              مصمم ومخرج مطبوعات <span style="color:var(--sky-300);">بخبرة <span data-bind="profile.experience">4 سنوات</span></span>
-            </h2>
-            <div id="about-bio-container" class="about-bio-text"></div>
+          <div id="about-bio-container" class="about-bio-text"></div>
+
+          <!-- بطاقات المؤهلات والإنجازات الأكاديمية والمهنية -->
+          <div class="about-credentials-grid">
+            <div class="about-credential-card">
+              <span class="credential-icon">🎓</span>
+              <div>
+                <h4 class="credential-title">المؤهل الأكاديمي</h4>
+                <p class="credential-desc">ليسانس آداب جغرافيا - جامعة القاهرة (جيد جداً مع مرتبة الشرف)</p>
+              </div>
+            </div>
+
+            <div class="about-credential-card">
+              <span class="credential-icon">🏢</span>
+              <div>
+                <h4 class="credential-title">الخبرة العملية الحالية</h4>
+                <p class="credential-desc">مخرج فني ومصمم مطبوعات معتمد بدار نشر سلاح الأزهري</p>
+              </div>
+            </div>
+
+            <div class="about-credential-card">
+              <span class="credential-icon">⚡</span>
+              <div>
+                <h4 class="credential-title">المهارات والتخصصات</h4>
+                <p class="credential-desc">إخراج الكتب والمجلات، الرسائل العلمية، وتصميم واجهات وتطبيقات UI/UX</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

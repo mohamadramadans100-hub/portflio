@@ -76,9 +76,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const heroImg = document.getElementById("hero-profile-img");
   if (heroImg) heroImg.src = data.profile.heroImage;
 
-  const aboutImg = document.getElementById("about-profile-img");
-  if (aboutImg) aboutImg.src = data.profile.aboutImage;
-
   // فقرات النبذة الشخصية
   const bioContainer = document.getElementById("about-bio-container");
   if (bioContainer) {
