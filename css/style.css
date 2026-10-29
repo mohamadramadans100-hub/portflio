@@ -597,6 +597,12 @@ section.section-py {
   z-index: 2;
 }
 
+.project-badge.pages-count {
+  background-color: rgba(14, 165, 233, 0.85);
+  color: #ffffff;
+  font-weight: 700;
+}
+
 .project-card-content {
   position: absolute;
   inset-inline: 0;
@@ -1102,7 +1108,7 @@ footer.site-footer {
   color: var(--sky-300);
 }
 
-/* Modal Popup */
+/* Modal Popup & Enhanced Gallery */
 .modal-backdrop {
   position: fixed;
   inset: 0;
@@ -1110,9 +1116,9 @@ footer.site-footer {
   display: none;
   align-items: flex-end;
   justify-content: center;
-  background-color: rgba(5, 8, 17, 0.85);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background-color: rgba(5, 8, 17, 0.88);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -1158,35 +1164,132 @@ footer.site-footer {
   position: absolute;
   top: 1rem;
   left: 1rem;
-  z-index: 10;
+  z-index: 20;
   display: flex;
   height: 2.75rem;
   width: 2.75rem;
   align-items: center;
   justify-content: center;
   border-radius: 9999px;
-  background-color: rgba(5, 8, 17, 0.8);
+  background-color: rgba(5, 8, 17, 0.85);
   color: var(--text-white);
-  border: none;
+  border: 1px solid var(--border-white-10);
   cursor: pointer;
-  backdrop-filter: blur(4px);
-  transition: color 0.2s;
+  backdrop-filter: blur(6px);
+  transition: all 0.2s;
 }
 
 .modal-close-btn:hover {
-  color: var(--sky-300);
+  background-color: var(--sky-300);
+  color: var(--ink-950);
 }
 
+/* Modal Gallery Image Wrapper */
 .modal-img-wrapper {
+  position: relative;
   aspect-ratio: 16 / 10;
   width: 100%;
   overflow: hidden;
+  background-color: #03050a;
 }
 
 .modal-img-wrapper img {
   width: 100%;
   height: 100%;
+  object-fit: contain;
+  transition: opacity 0.25s ease;
+}
+
+/* Gallery Navigation Arrows */
+.modal-nav-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  display: flex;
+  height: 3rem;
+  width: 3rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background-color: rgba(5, 8, 17, 0.75);
+  border: 1px solid var(--border-white-15);
+  color: var(--text-white);
+  font-size: 1.25rem;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: all 0.25s ease;
+}
+
+.modal-nav-arrow:hover {
+  background-color: var(--sky-300);
+  color: var(--ink-950);
+}
+
+.modal-prev {
+  right: 1rem;
+}
+
+.modal-next {
+  left: 1rem;
+}
+
+.modal-img-counter {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  z-index: 10;
+  border-radius: 9999px;
+  background-color: rgba(5, 8, 17, 0.85);
+  border: 1px solid var(--border-white-10);
+  padding: 0.35rem 0.85rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--sky-300);
+  backdrop-filter: blur(8px);
+  direction: ltr;
+}
+
+/* Thumbnails Strip */
+.modal-thumbnails-strip {
+  display: flex;
+  gap: 0.625rem;
+  padding: 0.875rem 1.25rem;
+  overflow-x: auto;
+  background-color: rgba(5, 8, 17, 0.5);
+  border-bottom: 1px solid var(--border-white-10);
+  scrollbar-width: thin;
+  scrollbar-color: var(--sky-300) transparent;
+}
+
+.modal-thumb-btn {
+  position: relative;
+  flex-shrink: 0;
+  width: 4.5rem;
+  height: 3.25rem;
+  border-radius: 0.625rem;
+  overflow: hidden;
+  border: 2px solid transparent;
+  cursor: pointer;
+  background-color: var(--ink-950);
+  padding: 0;
+  transition: all 0.25s ease;
+}
+
+.modal-thumb-btn img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+}
+
+.modal-thumb-btn:hover {
+  border-color: rgba(125, 211, 252, 0.5);
+  transform: translateY(-2px);
+}
+
+.modal-thumb-btn.active {
+  border-color: var(--sky-300);
+  box-shadow: 0 0 12px rgba(125, 211, 252, 0.4);
 }
 
 .modal-body {

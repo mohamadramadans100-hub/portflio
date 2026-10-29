@@ -47,6 +47,7 @@ const PORTFOLIO_DATA = {
   // تصنيفات المشاريع لتصفية المعرض
   categories: [
     "الكل",
+    "كتب وروايات",
     "الهوية البصرية",
     "تصميم البوستر",
     "تصميم السوشيال ميديا",
@@ -57,6 +58,11 @@ const PORTFOLIO_DATA = {
 
   // الخدمات التي تقدمها
   services: [
+    {
+      title: "تصميم وتنسيق الكتب والروايات",
+      description: "تنسيق داخلي احترافي لصفحات الكتب والروايات، مع توزيع متناسق للنصوص وإخراج طباعي مريح.",
+      icon: "frame"
+    },
     {
       title: "تصميم السوشيال ميديا",
       description: "تصاميم جذابة للمنشورات والستوريز والكاروسيل، مع هوية متسقة على كل المنصات.",
@@ -91,8 +97,36 @@ const PORTFOLIO_DATA = {
     "Adobe InDesign"
   ],
 
-  // قائمة المشاريع في المعرض
+  // قائمة المشاريع في المعرض (المشروع الأول في بداية المعرض)
   projects: [
+    {
+      id: "books-and-novels",
+      title: "كتب وروايات",
+      client: "دار نشر / أعمال أدبية",
+      category: "كتب وروايات",
+      year: "2024",
+      image: "assets/book/book-page-01.jpg",
+      summary: "تصميم وتنسيق داخلي احترافي لصفحات ونماذج كتب وروايات بجودة طباعية عالية تشمل 11 نموذجاً وتصميماً داخلياً.",
+      overview: "مشروع متكامل لتصميم وتنسيق وإخراج الكتب والروايات الأدبية. يشمل التصميم الداخلي، التوزيع المتناسق للنصوص والفقرات، اختيار الخطوط الطباعية الملائمة والمريحة للعين، وتنسيق الفصول والصفحات بنماذج إخراجية متعددة ومتقنة مع مراعاة كافة المعايير الطباعية.",
+      role: "تصميم وتنسيق داخلي وإخراج فني",
+      tools: ["Adobe InDesign", "Adobe Photoshop"],
+      featured: true,
+      isPlaceholder: false,
+      // قائمة كافة صور صفحات ونماذج المشروع (11 صفحة كاملة)
+      gallery: [
+        "assets/book/book-page-01.jpg",
+        "assets/book/book-page-02.jpg",
+        "assets/book/book-page-03.jpg",
+        "assets/book/book-page-04.jpg",
+        "assets/book/book-page-05.jpg",
+        "assets/book/book-page-06.jpg",
+        "assets/book/book-page-07.jpg",
+        "assets/book/book-page-08.jpg",
+        "assets/book/book-page-09.jpg",
+        "assets/book/book-page-10.jpg",
+        "assets/book/book-page-11.jpg"
+      ]
+    },
     {
       id: "brand-identity",
       title: "عنوان المشروع 01",
@@ -105,7 +139,8 @@ const PORTFOLIO_DATA = {
       role: "أضف دورك في المشروع",
       tools: ["Photoshop", "Illustrator"],
       featured: true,
-      isPlaceholder: true
+      isPlaceholder: true,
+      gallery: ["assets/images/project-brand-identity.jpg"]
     },
     {
       id: "poster",
@@ -119,7 +154,8 @@ const PORTFOLIO_DATA = {
       role: "أضف دورك في المشروع",
       tools: ["Photoshop"],
       featured: true,
-      isPlaceholder: true
+      isPlaceholder: true,
+      gallery: ["assets/images/project-poster.jpg"]
     },
     {
       id: "social-media",
@@ -133,7 +169,8 @@ const PORTFOLIO_DATA = {
       role: "أضف دورك في المشروع",
       tools: ["Photoshop", "Illustrator"],
       featured: true,
-      isPlaceholder: true
+      isPlaceholder: true,
+      gallery: ["assets/images/project-social-media.jpg"]
     },
     {
       id: "print",
@@ -147,7 +184,8 @@ const PORTFOLIO_DATA = {
       role: "أضف دورك في المشروع",
       tools: ["InDesign", "Illustrator"],
       featured: false,
-      isPlaceholder: true
+      isPlaceholder: true,
+      gallery: ["assets/images/project-print.jpg"]
     },
     {
       id: "packaging",
@@ -161,7 +199,8 @@ const PORTFOLIO_DATA = {
       role: "أضف دورك في المشروع",
       tools: ["Illustrator", "Photoshop"],
       featured: false,
-      isPlaceholder: true
+      isPlaceholder: true,
+      gallery: ["assets/images/project-packaging.jpg"]
     },
     {
       id: "advertising",
@@ -175,7 +214,8 @@ const PORTFOLIO_DATA = {
       role: "أضف دورك في المشروع",
       tools: ["Photoshop"],
       featured: false,
-      isPlaceholder: true
+      isPlaceholder: true,
+      gallery: ["assets/images/project-advertising.jpg"]
     }
   ]
 };

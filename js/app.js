@@ -1,7 +1,7 @@
 /**
  * =========================================================================
  * تطبيق البورتفوليو الرئيسي (Portfolio Core Logic)
- * يقوم بربط البيانات من data.js وتفعيل التفاعلات، التصفية، والمودال
+ * يقوم بربط البيانات من data.js وتفعيل التفاعلات، التصفية، ومعرض الصور التفاعلي
  * =========================================================================
  */
 
@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const data = PORTFOLIO_DATA;
   let activeCategory = "الكل";
 
-  // 1. حقن بيانات الهوية الشخصية في كل أنحاء الصفحة
+  // 1. حقن بيانات الهوية الشخصية
   document.title = `${data.profile.name} | ${data.profile.title}`;
   document.querySelectorAll("[data-bind='profile.name']").forEach(el => el.textContent = data.profile.name);
   document.querySelectorAll("[data-bind='profile.title']").forEach(el => el.textContent = data.profile.title);
@@ -122,11 +122,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     projectsGrid.innerHTML = filtered.map((project, index) => {
       const isFirstAll = index === 0 && activeCategory === "الكل";
+      const totalPages = (project.gallery && project.gallery.length > 1) ? project.gallery.length : null;
+      
       return `
         <div class="project-card reveal is-visible ${isFirstAll ? 'is-first-all' : ''}" data-project-id="${project.id}">
           <img src="${project.image}" alt="${project.title}" loading="lazy" class="project-card-img" />
           <div class="project-card-gradient"></div>
-          ${project.isPlaceholder ? `<span class="project-badge">نموذج توضيحي</span>` : ''}
+          
+          ${totalPages ? `<span class="project-badge pages-count">${totalPages} نماذج وتصاميم</span>` : (project.isPlaceholder ? `<span class="project-badge">نموذج توضيحي</span>` : '')}
+          
           <div class="project-card-content">
             <span class="eyebrow" style="font-size:0.75rem;">${project.category}</span>
             <div class="project-card-title-row">
@@ -155,13 +159,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const featured = data.projects.filter(p => p.featured);
     featuredContainer.innerHTML = featured.map((project, idx) => {
       const isReverse = idx % 2 === 1;
+      const totalPages = (project.gallery && project.gallery.length > 1) ? project.gallery.length : null;
+
       return `
         <div class="featured-row ${isReverse ? 'reverse' : ''} reveal">
           <div class="featured-media">
             <div class="project-card featured-large" data-project-id="${project.id}">
               <img src="${project.image}" alt="${project.title}" loading="lazy" class="project-card-img" />
               <div class="project-card-gradient"></div>
-              ${project.isPlaceholder ? `<span class="project-badge">نموذج توضيحي</span>` : ''}
+              ${totalPages ? `<span class="project-badge pages-count">${totalPages} نماذج وتصاميم</span>` : (project.isPlaceholder ? `<span class="project-badge">نموذج توضيحي</span>` : '')}
               <div class="project-card-content">
                 <span class="eyebrow" style="font-size:0.75rem;">${project.category}</span>
                 <div class="project-card-title-row">
@@ -186,7 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
               </div>
             </div>
             <button type="button" class="btn-open-details" data-project-id="${project.id}">
-              اقرأ تفاصيل المشروع ${ICONS.arrowLeft}
+              استعراض كافة الصور والتفاصيل ${ICONS.arrowLeft}
             </button>
           </div>
         </div>
@@ -249,7 +255,7 @@ document.addEventListener("DOMContentLoaded", () => {
     `).join("");
   }
 
-  // 9. نافذة تفاصيل المشروع (Project Details Modal)
+  // 9. نافذة تفاصيل المشروع ومعرض الصور المتقدم (Interactive Gallery Modal)
   const modalBackdrop = document.getElementById("project-modal-backdrop");
   const modalCloseBtn = document.getElementById("modal-close-btn");
   const modalImg = document.getElementById("modal-project-img");
@@ -260,13 +266,42 @@ document.addEventListener("DOMContentLoaded", () => {
   const modalYear = document.getElementById("modal-project-year");
   const modalRole = document.getElementById("modal-project-role");
   const modalTools = document.getElementById("modal-project-tools");
+  const modalPrevBtn = document.getElementById("modal-prev-btn");
+  const modalNextBtn = document.getElementById("modal-next-btn");
+  const modalCounter = document.getElementById("modal-img-counter");
+  const modalThumbsContainer = document.getElementById("modal-thumbnails-container");
+
+  let currentGallery = [];
+  let currentImageIdx = 0;
+
+  function updateGalleryDisplay() {
+    if (!currentGallery || currentGallery.length === 0) return;
+    
+    modalImg.src = currentGallery[currentImageIdx];
+    if (modalCounter) {
+      modalCounter.textContent = `${currentImageIdx + 1} / ${currentGallery.length}`;
+    }
+
+    if (modalThumbsContainer) {
+      modalThumbsContainer.querySelectorAll(".modal-thumb-btn").forEach((thumb, idx) => {
+        thumb.classList.toggle("active", idx === currentImageIdx);
+        if (idx === currentImageIdx) {
+          thumb.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+        }
+      });
+    }
+  }
 
   function openProjectModal(id) {
     const project = data.projects.find(p => p.id === id);
     if (!project || !modalBackdrop) return;
 
-    modalImg.src = project.image;
-    modalImg.alt = project.title;
+    // تجهيز مصفوفة الصور
+    currentGallery = (project.gallery && project.gallery.length > 0) 
+      ? project.gallery 
+      : [project.image];
+    currentImageIdx = 0;
+
     modalCategory.textContent = project.category;
     modalTitle.textContent = project.title;
     modalOverview.textContent = project.overview;
@@ -277,9 +312,37 @@ document.addEventListener("DOMContentLoaded", () => {
     if (modalTools) {
       modalTools.innerHTML = (project.tools && project.tools.length > 0)
         ? project.tools.map(t => `<span class="tool-tag">${t}</span>`).join("")
-        : `<span class="tool-tag">Photoshop</span>`;
+        : `<span class="tool-tag">Adobe InDesign</span>`;
     }
 
+    // إظهار أو إخفاء أزرار التنقل وشريط المصغرات بحسب عدد الصور
+    const hasMultiple = currentGallery.length > 1;
+    if (modalPrevBtn) modalPrevBtn.style.display = hasMultiple ? "flex" : "none";
+    if (modalNextBtn) modalNextBtn.style.display = hasMultiple ? "flex" : "none";
+    if (modalCounter) modalCounter.style.display = hasMultiple ? "block" : "none";
+
+    if (modalThumbsContainer) {
+      if (hasMultiple) {
+        modalThumbsContainer.style.display = "flex";
+        modalThumbsContainer.innerHTML = currentGallery.map((imgSrc, idx) => `
+          <button type="button" class="modal-thumb-btn ${idx === 0 ? 'active' : ''}" data-idx="${idx}" aria-label="عرض النموذج ${idx + 1}">
+            <img src="${imgSrc}" alt="مصغر صفحة ${idx + 1}" loading="lazy" />
+          </button>
+        `).join("");
+
+        modalThumbsContainer.querySelectorAll(".modal-thumb-btn").forEach(btn => {
+          btn.addEventListener("click", () => {
+            currentImageIdx = parseInt(btn.getAttribute("data-idx"), 10);
+            updateGalleryDisplay();
+          });
+        });
+      } else {
+        modalThumbsContainer.style.display = "none";
+        modalThumbsContainer.innerHTML = "";
+      }
+    }
+
+    updateGalleryDisplay();
     modalBackdrop.classList.add("is-active");
     document.body.style.overflow = "hidden";
   }
@@ -289,6 +352,22 @@ document.addEventListener("DOMContentLoaded", () => {
     modalBackdrop.classList.remove("is-active");
     document.body.style.overflow = "";
   }
+
+  // التنقل بين الصور
+  function showNextImage() {
+    if (currentGallery.length <= 1) return;
+    currentImageIdx = (currentImageIdx + 1) % currentGallery.length;
+    updateGalleryDisplay();
+  }
+
+  function showPrevImage() {
+    if (currentGallery.length <= 1) return;
+    currentImageIdx = (currentImageIdx - 1 + currentGallery.length) % currentGallery.length;
+    updateGalleryDisplay();
+  }
+
+  if (modalNextBtn) modalNextBtn.addEventListener("click", showNextImage);
+  if (modalPrevBtn) modalPrevBtn.addEventListener("click", showPrevImage);
 
   if (modalCloseBtn) {
     modalCloseBtn.innerHTML = ICONS.x;
@@ -302,7 +381,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   window.addEventListener("keydown", (e) => {
+    if (!modalBackdrop.classList.contains("is-active")) return;
     if (e.key === "Escape") closeProjectModal();
+    if (e.key === "ArrowLeft") showNextImage(); // في اتجاه RTL السهم الأيسر هو التالي
+    if (e.key === "ArrowRight") showPrevImage();
   });
 
   // 10. تفعيل حركة الظهور عند التمرير (Intersection Observer)

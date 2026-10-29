@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>محمد رمضان | مصمم جرافيك</title>
-  <meta name="description" content="معرض أعمال محمد رمضان، مصمم جرافيك بخبرة في الهوية البصرية، السوشيال ميديا، والمطبوعات." />
+  <meta name="description" content="معرض أعمال محمد رمضان، مصمم جرافيك بخبرة في الهوية البصرية، كتب وروايات، السوشيال ميديا، والمطبوعات." />
   
   <!-- خط كايرو الفاخر من Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -92,7 +92,7 @@
             <span class="eyebrow">أعمال مختارة</span>
             <h2 class="section-title">معرض الأعمال</h2>
           </div>
-          <p class="section-desc">مجموعة من المشاريع في الهوية البصرية والسوشيال ميديا والمطبوعات. اختر أي عمل لعرض تفاصيله.</p>
+          <p class="section-desc">مجموعة من المشاريع في الكتب والروايات والهوية البصرية والسوشيال ميديا. اضغط على أي عمل لعرض تفاصيله ومعرض الصور بالكامل.</p>
         </div>
 
         <!-- أزرار التصنيف والتصفية -->
@@ -229,14 +229,21 @@
     </div>
   </footer>
 
-  <!-- نافذة تفاصيل المشروع (Modal Dialog) -->
+  <!-- نافذة تفاصيل المشروع (Modal Dialog) مع معرض الصور التفاعلي لجميع الصور -->
   <div id="project-modal-backdrop" class="modal-backdrop">
     <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modal-project-title">
       <button type="button" id="modal-close-btn" class="modal-close-btn" aria-label="إغلاق تفاصيل المشروع"></button>
       
+      <!-- منطقة عرض الصورة مع أزرار التنقل والعداد -->
       <div class="modal-img-wrapper">
         <img id="modal-project-img" src="" alt="صورة المشروع" />
+        <button type="button" id="modal-prev-btn" class="modal-nav-arrow modal-prev" aria-label="الصورة السابقة">&#10095;</button>
+        <button type="button" id="modal-next-btn" class="modal-nav-arrow modal-next" aria-label="الصورة التالية">&#10094;</button>
+        <span id="modal-img-counter" class="modal-img-counter">1 / 1</span>
       </div>
+
+      <!-- شريط مصغرات الصور (Thumbnails Carousel) لكافة صور المشروع -->
+      <div id="modal-thumbnails-container" class="modal-thumbnails-strip"></div>
 
       <div class="modal-body">
         <div>
