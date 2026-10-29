@@ -155,19 +155,25 @@ document.addEventListener("DOMContentLoaded", () => {
       const hasApp = !!project.appUrl;
 
       return `
-        <div class="project-card reveal is-visible" data-project-id="${project.id}">
-          <img src="${project.image}" alt="${project.title}" loading="lazy" class="project-card-img" />
-          <div class="project-card-gradient"></div>
+        <div class="project-card reveal is-visible" data-project-id="${project.id}" role="button" tabindex="0" aria-label="عرض تفاصيل ${project.title}">
+          <div class="project-card-media">
+            <img src="${project.image}" alt="${project.title}" loading="lazy" class="project-card-img" />
+            
+            ${totalPages ? `<span class="project-badge pages-count">${totalPages} نماذج</span>` : ''}
+            ${hasApp ? `<span class="project-badge app-badge">${ICONS.googlePlay} Google Play</span>` : ''}
+          </div>
           
-          ${totalPages ? `<span class="project-badge pages-count">${totalPages} تصاميم ونماذج</span>` : ''}
-          ${hasApp ? `<span class="project-badge app-badge">${ICONS.googlePlay} متوفر على Google Play</span>` : ''}
-          
-          <div class="project-card-content">
-            <span class="eyebrow" style="font-size:0.75rem;">${project.category}</span>
+          <div class="project-card-body">
+            <div class="project-card-meta-row">
+              <span class="project-card-category">${project.category}</span>
+              <span class="project-card-year">${project.year}</span>
+            </div>
+
             <div class="project-card-title-row">
               <h3 class="project-card-title">${project.title}</h3>
-              <span class="project-card-arrow-btn">${ICONS.arrowUpLeft}</span>
+              <span class="project-card-arrow-btn" aria-hidden="true">${ICONS.arrowUpLeft}</span>
             </div>
+
             <p class="project-card-summary">${project.summary}</p>
           </div>
         </div>
@@ -176,9 +182,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ربط النقر لفتح المودال
     projectsGrid.querySelectorAll(".project-card").forEach(card => {
-      card.addEventListener("click", () => {
+      const handleOpen = () => {
         const id = card.getAttribute("data-project-id");
         openProjectModal(id);
+      };
+      card.addEventListener("click", handleOpen);
+      card.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          handleOpen();
+        }
       });
     });
   }
