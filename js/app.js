@@ -203,10 +203,9 @@ document.addEventListener("DOMContentLoaded", () => {
     `).join("");
   }
 
-  // 8. نافذة تفاصيل المشروع ومعرض الصور المتقدم (Interactive Gallery Modal)
+  // 8. نافذة تفاصيل المشروع وقارئ الصفحات الرأسي المتتالي كالكتاب (Vertical Book Reader & Lightbox)
   const modalBackdrop = document.getElementById("project-modal-backdrop");
   const modalCloseBtn = document.getElementById("modal-close-btn");
-  const modalImg = document.getElementById("modal-project-img");
   const modalCategory = document.getElementById("modal-project-category");
   const modalTitle = document.getElementById("modal-project-title");
   const modalOverview = document.getElementById("modal-project-overview");
@@ -214,49 +213,39 @@ document.addEventListener("DOMContentLoaded", () => {
   const modalYear = document.getElementById("modal-project-year");
   const modalRole = document.getElementById("modal-project-role");
   const modalTools = document.getElementById("modal-project-tools");
-  const modalPrevBtn = document.getElementById("modal-prev-btn");
-  const modalNextBtn = document.getElementById("modal-next-btn");
-  const modalCounter = document.getElementById("modal-img-counter");
-  const modalThumbsContainer = document.getElementById("modal-thumbnails-container");
   const modalAppLinkWrapper = document.getElementById("modal-app-link-wrapper");
+  const readerPagesList = document.getElementById("modal-vertical-pages-list");
+  const readerPagesBadge = document.getElementById("reader-total-pages-badge");
 
+  // عناصر لايت بوكس التكبير بملء الشاشة
+  const lightboxBackdrop = document.getElementById("fullscreen-lightbox");
+  const lightboxCloseBtn = document.getElementById("lightbox-close-btn");
+  const lightboxImg = document.getElementById("lightbox-img");
+  const lightboxTitle = document.getElementById("lightbox-project-title");
+  const lightboxCounter = document.getElementById("lightbox-counter");
+  const lightboxPrevBtn = document.getElementById("lightbox-prev-btn");
+  const lightboxNextBtn = document.getElementById("lightbox-next-btn");
+
+  let currentProject = null;
   let currentGallery = [];
-  let currentImageIdx = 0;
-
-  function updateGalleryDisplay() {
-    if (!currentGallery || currentGallery.length === 0) return;
-    
-    modalImg.src = currentGallery[currentImageIdx];
-    if (modalCounter) {
-      modalCounter.textContent = `${currentImageIdx + 1} / ${currentGallery.length}`;
-    }
-
-    if (modalThumbsContainer) {
-      modalThumbsContainer.querySelectorAll(".modal-thumb-btn").forEach((thumb, idx) => {
-        thumb.classList.toggle("active", idx === currentImageIdx);
-        if (idx === currentImageIdx) {
-          thumb.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
-        }
-      });
-    }
-  }
+  let currentLightboxIdx = 0;
 
   function openProjectModal(id) {
     const project = data.projects.find(p => p.id === id);
     if (!project || !modalBackdrop) return;
 
+    currentProject = project;
     // تجهيز مصفوفة الصور
     currentGallery = (project.gallery && project.gallery.length > 0) 
       ? project.gallery 
       : [project.image];
-    currentImageIdx = 0;
 
-    modalCategory.textContent = project.category;
-    modalTitle.textContent = project.title;
-    modalOverview.textContent = project.overview;
-    modalClient.textContent = project.client;
-    modalYear.textContent = project.year;
-    modalRole.textContent = project.role;
+    if (modalCategory) modalCategory.textContent = project.category;
+    if (modalTitle) modalTitle.textContent = project.title;
+    if (modalOverview) modalOverview.textContent = project.overview;
+    if (modalClient) modalClient.textContent = project.client;
+    if (modalYear) modalYear.textContent = project.year;
+    if (modalRole) modalRole.textContent = project.role;
 
     if (modalTools) {
       modalTools.innerHTML = (project.tools && project.tools.length > 0)
@@ -278,34 +267,53 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
-    // إظهار أو إخفاء أزرار التنقل وشريط المصغرات بحسب عدد الصور
-    const hasMultiple = currentGallery.length > 1;
-    if (modalPrevBtn) modalPrevBtn.style.display = hasMultiple ? "flex" : "none";
-    if (modalNextBtn) modalNextBtn.style.display = hasMultiple ? "flex" : "none";
-    if (modalCounter) modalCounter.style.display = hasMultiple ? "block" : "none";
-
-    if (modalThumbsContainer) {
-      if (hasMultiple) {
-        modalThumbsContainer.style.display = "flex";
-        modalThumbsContainer.innerHTML = currentGallery.map((imgSrc, idx) => `
-          <button type="button" class="modal-thumb-btn ${idx === 0 ? 'active' : ''}" data-idx="${idx}" aria-label="عرض النموذج ${idx + 1}">
-            <img src="${imgSrc}" alt="مصغر صفحة ${idx + 1}" loading="lazy" />
-          </button>
-        `).join("");
-
-        modalThumbsContainer.querySelectorAll(".modal-thumb-btn").forEach(btn => {
-          btn.addEventListener("click", () => {
-            currentImageIdx = parseInt(btn.getAttribute("data-idx"), 10);
-            updateGalleryDisplay();
-          });
-        });
-      } else {
-        modalThumbsContainer.style.display = "none";
-        modalThumbsContainer.innerHTML = "";
-      }
+    // تحديث شارة عدد الصفحات
+    if (readerPagesBadge) {
+      readerPagesBadge.textContent = `${currentGallery.length} ${currentGallery.length > 10 ? 'صفحة ونموذج' : 'صفحات ونماذج'}`;
     }
 
-    updateGalleryDisplay();
+    // بناء قائمة الصفحات الرأسية المتتالية كالكتاب
+    if (readerPagesList) {
+      readerPagesList.innerHTML = currentGallery.map((imgSrc, idx) => `
+        <div class="book-page-card" data-idx="${idx}" role="button" tabindex="0" aria-label="عرض صفحة ${idx + 1} وتكبيرها">
+          <div class="book-page-top-bar">
+            <span class="page-tag">
+              <span>📄</span>
+              <span>صفحة / نموذج رقم ${idx + 1}</span>
+            </span>
+            <span class="zoom-hint-pill">
+              <span>🔍</span>
+              <span>اضغط للتكبير بملء الشاشة</span>
+            </span>
+          </div>
+          <div class="book-page-img-wrapper">
+            <img src="${imgSrc}" alt="صفحة ${idx + 1} من ${project.title}" loading="${idx < 3 ? 'eager' : 'lazy'}" />
+            <div class="book-page-hover-overlay">
+              <span class="zoom-btn-pill">
+                <span>🔍</span>
+                <span>تكبير الصفحة بملء الشاشة</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      `).join("");
+
+      // ربط النقر على أي صفحة لفتح التكبير
+      readerPagesList.querySelectorAll(".book-page-card").forEach(card => {
+        card.addEventListener("click", () => {
+          const idx = parseInt(card.getAttribute("data-idx"), 10);
+          openLightbox(idx);
+        });
+        card.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            const idx = parseInt(card.getAttribute("data-idx"), 10);
+            openLightbox(idx);
+          }
+        });
+      });
+    }
+
     modalBackdrop.classList.add("is-active");
     document.body.style.overflow = "hidden";
   }
@@ -314,23 +322,90 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!modalBackdrop) return;
     modalBackdrop.classList.remove("is-active");
     document.body.style.overflow = "";
+    closeLightbox();
   }
 
-  // التنقل بين الصور
-  function showNextImage() {
+  // دوال لايت بوكس التكبير (Fullscreen Lightbox)
+  function openLightbox(index) {
+    if (!lightboxBackdrop || !currentGallery || currentGallery.length === 0) return;
+    currentLightboxIdx = (index >= 0 && index < currentGallery.length) ? index : 0;
+    updateLightboxStage();
+    lightboxBackdrop.classList.add("is-active");
+    lightboxBackdrop.setAttribute("aria-hidden", "false");
+  }
+
+  function closeLightbox() {
+    if (!lightboxBackdrop) return;
+    lightboxBackdrop.classList.remove("is-active");
+    lightboxBackdrop.setAttribute("aria-hidden", "true");
+  }
+
+  function updateLightboxStage() {
+    if (!lightboxImg || !currentGallery || currentGallery.length === 0) return;
+    lightboxImg.src = currentGallery[currentLightboxIdx];
+    
+    if (lightboxTitle && currentProject) {
+      lightboxTitle.textContent = currentProject.title;
+    }
+    if (lightboxCounter) {
+      lightboxCounter.textContent = `صفحة ${currentLightboxIdx + 1} من ${currentGallery.length}`;
+    }
+
+    const hasMultiple = currentGallery.length > 1;
+    if (lightboxPrevBtn) lightboxPrevBtn.style.display = hasMultiple ? "flex" : "none";
+    if (lightboxNextBtn) lightboxNextBtn.style.display = hasMultiple ? "flex" : "none";
+  }
+
+  function showLightboxNext() {
     if (currentGallery.length <= 1) return;
-    currentImageIdx = (currentImageIdx + 1) % currentGallery.length;
-    updateGalleryDisplay();
+    currentLightboxIdx = (currentLightboxIdx + 1) % currentGallery.length;
+    updateLightboxStage();
   }
 
-  function showPrevImage() {
+  function showLightboxPrev() {
     if (currentGallery.length <= 1) return;
-    currentImageIdx = (currentImageIdx - 1 + currentGallery.length) % currentGallery.length;
-    updateGalleryDisplay();
+    currentLightboxIdx = (currentLightboxIdx - 1 + currentGallery.length) % currentGallery.length;
+    updateLightboxStage();
   }
 
-  if (modalNextBtn) modalNextBtn.addEventListener("click", showNextImage);
-  if (modalPrevBtn) modalPrevBtn.addEventListener("click", showPrevImage);
+  // أحداث اللايت بوكس
+  if (lightboxNextBtn) lightboxNextBtn.addEventListener("click", showLightboxNext);
+  if (lightboxPrevBtn) lightboxPrevBtn.addEventListener("click", showLightboxPrev);
+  if (lightboxCloseBtn) lightboxCloseBtn.addEventListener("click", closeLightbox);
+
+  if (lightboxBackdrop) {
+    lightboxBackdrop.addEventListener("click", (e) => {
+      if (e.target === lightboxBackdrop || e.target.id === "lightbox-stage-wrapper") {
+        closeLightbox();
+      }
+    });
+  }
+
+  // دعم السحب على شاشات اللمس للتنقل (Touch Swipe)
+  let touchStartX = 0;
+  let touchEndX = 0;
+  if (lightboxBackdrop) {
+    lightboxBackdrop.addEventListener("touchstart", (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    lightboxBackdrop.addEventListener("touchend", (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleLightboxSwipe();
+    }, { passive: true });
+  }
+
+  function handleLightboxSwipe() {
+    const swipeThreshold = 50;
+    const diff = touchEndX - touchStartX;
+    if (Math.abs(diff) > swipeThreshold) {
+      if (diff > 0) {
+        showLightboxPrev();
+      } else {
+        showLightboxNext();
+      }
+    }
+  }
 
   if (modalCloseBtn) {
     modalCloseBtn.innerHTML = ICONS.x;
@@ -343,11 +418,26 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // الاستماع لمفاتيح الكيبورد
   window.addEventListener("keydown", (e) => {
-    if (!modalBackdrop.classList.contains("is-active")) return;
-    if (e.key === "Escape") closeProjectModal();
-    if (e.key === "ArrowLeft") showNextImage();
-    if (e.key === "ArrowRight") showPrevImage();
+    if (lightboxBackdrop && lightboxBackdrop.classList.contains("is-active")) {
+      if (e.key === "Escape") {
+        closeLightbox();
+        return;
+      }
+      if (e.key === "ArrowLeft") {
+        showLightboxNext();
+        return;
+      }
+      if (e.key === "ArrowRight") {
+        showLightboxPrev();
+        return;
+      }
+    }
+
+    if (modalBackdrop && modalBackdrop.classList.contains("is-active")) {
+      if (e.key === "Escape") closeProjectModal();
+    }
   });
 
   // 9. تفعيل حركة الظهور عند التمرير (Intersection Observer)
